@@ -7,7 +7,6 @@ import { ThemeProvider, useThemeContext } from "./src/context/ThemeContext";
 import Toast from "react-native-toast-message";
 import { ToastConfig } from "./src/styles/ToastConfig";
 
-// 🔹 StatusBar com tema dinâmico
 function ThemedStatusBar() {
   const { themeName, theme } = useThemeContext();
   return (
@@ -18,7 +17,6 @@ function ThemedStatusBar() {
   );
 }
 
-// 🔹 Toast com tema dinâmico
 function ThemedToast() {
   const { themeName } = useThemeContext();
   return <Toast config={ToastConfig(themeName)} />;

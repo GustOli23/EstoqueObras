@@ -1,50 +1,177 @@
-# Welcome to your Expo app 👋
+Sistema de Estoque e Obras – Peretto & Souza
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo mobile desenvolvido em React Native + Expo para controle de estoque, obras e movimentações de materiais.
+Criado como parte de um projeto acadêmico, com base em necessidades reais da empresa Peretto & Souza.
 
-## Get started
+📱 Funcionalidades Principais
+🔹 Dashboard
 
-1. Install dependencies
+Visão geral do sistema
 
-   ```bash
-   npm install
-   ```
+Total de materiais, obras e áreas
 
-2. Start the app
+Valor total em estoque
 
-   ```bash
-   npx expo start
-   ```
+Alertas de estoque mínimo
 
-In the output, you'll find options to open the app in a
+Movimentações recentes
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+🔹 Materiais
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Cadastro completo de materiais
 
-## Get a fresh project
+Unidade de medida configurável (m², m³, sacos, barras etc.)
 
-When you're ready, run:
+Estoque atual e estoque mínimo
 
-```bash
-npm run reset-project
-```
+Valor unitário
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Indicação visual de estoque baixo
 
-## Learn more
+🔹 Obras
 
-To learn more about developing your project with Expo, look at the following resources:
+Cadastro de obras
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Endereço, cliente, metragem e orçamento
 
-## Join the community
+Arquivamento e reativação de obras
 
-Join our community of developers creating universal apps.
+Relação com movimentações
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+🔹 Movimentações
+
+Registro de entrada e saída
+
+Seleção de obra
+
+Quantidade, valor e observações
+
+Histórico completo filtrável
+
+🔹 Configurações
+
+Alternância entre tema claro e tema escuro
+
+Persistência via AsyncStorage
+
+🏗️ Tecnologias Utilizadas
+
+React Native
+
+Expo
+
+React Navigation
+
+Context API
+
+AsyncStorage
+
+Lucide Icons
+
+StyleSheet + Tema Global
+
+FlatList (alta performance)
+
+📦 Estrutura do Projeto
+/src
+├── components
+│ ├── MaterialCard.js
+│ ├── StatsCard.js
+│ ├── WorkCard.js
+│ └── UnitPicker.js
+│
+├── context
+│ ├── DataService.js
+│ └── ThemeContext.js
+│
+├── navigation
+│ └── AppNavigator.js
+│
+├── screens
+│ ├── Dashboard.js
+│ ├── Materiais.js
+│ ├── MaterialForm.js
+│ ├── Obras.js
+│ ├── WorkForm.js
+│ ├── MovimentacaoForm.js
+│ └── Historico.js
+│
+└── styles
+├── ToastConfig.js
+└── theme.js
+
+App.js  
+app.json  
+README.md
+
+🚀 Como Executar o Projeto
+1️⃣ Clonar o repositório
+git clone https://github.com/GustOli23/EstoqueObras
+cd EstoqueObras
+
+2️⃣ Instalar as dependências
+npm install
+
+3️⃣ Executar o aplicativo
+npm start
+
+Isso abrirá o Expo DevTools no navegador.
+
+4️⃣ Rodar o app:
+
+📱 Expo Go (Android / iOS)
+→ Escanear o QR Code exibido
+
+📱 Emulador Android
+Pressione a no terminal
+
+💻 Navegador Web
+Pressione w
+
+📄 Documento de Design
+
+O documento completo de design do aplicativo está disponível em:
+
+/docs/Documento_Design_App.docx
+
+Ou pode ser solicitado diretamente ao desenvolvedor.
+
+🧪 Testes Realizados
+
+Cadastro e edição de materiais
+
+Persistência local via AsyncStorage
+
+Navegação entre telas
+
+Mudança de tema
+
+Arquivamento de obras
+
+Registro e exibição de movimentações
+
+Testes com dados reais da construtora
+
+🎯 Objetivo Acadêmico
+
+Este projeto foi desenvolvido como parte de um estudo prático de:
+
+Arquitetura mobile
+
+Persistência local
+
+Interface e experiência do usuário
+
+Modularização e padrões de projeto
+
+Versionamento e documentação técnica
+
+👨‍💻 Autor
+
+Gustavo Aparecido de Oliveira
+GitHub: https://github.com/GustOli23
+
+📬 Contato
+
+Para dúvidas, sugestões ou avaliação do projeto, entrar em contato pelo e-mail:
+📧 ap.gustavo21@gmail.com
