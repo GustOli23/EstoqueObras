@@ -28,7 +28,7 @@ export default function Materiais() {
 
   // 🔹 Criar novo material
   const handleNewMaterial = () => {
-    navigation.navigate("MaterialFormScreen");
+    navigation.navigate("MaterialForm");
   };
 
   // 🔹 Editar material existente
@@ -39,7 +39,7 @@ export default function Materiais() {
       valor_unitario: material.valor_unitario.toFixed(2).toString(),
       estoque_minimo: material.estoque_minimo.toString(),
     };
-    navigation.navigate("MaterialFormScreen", { material: materialData });
+    navigation.navigate("MaterialForm", { material: materialData });
   };
 
   // 🔹 Filtro e busca
