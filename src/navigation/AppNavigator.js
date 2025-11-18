@@ -12,6 +12,7 @@ import Historico from "../screens/Historico";
 import Configuracoes from "../screens/Configuracoes";
 import WorkForm from "../screens/WorkForm";
 import MaterialForm from "../screens/MaterialForm";
+import MovimentacaoForm from "../screens/MovimentacaoForm";
 
 import {
   LayoutDashboard,
@@ -173,11 +174,12 @@ function Tabs() {
 
       <Tab.Screen
         name="Add"
-        component={Dashboard}
+        component={Dashboard} // componente qualquer apenas para preencher, não será mostrado
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            navigation.navigate("Materiais", { screen: "MaterialForm" });
+            // abre o formulário de movimentação (agora registrado no stack global)
+            navigation.navigate("MovimentacaoForm");
           },
         })}
         options={{
@@ -231,6 +233,18 @@ export default function AppNavigator() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* TODAS AS TABS */}
         <Stack.Screen name="Tabs" component={Tabs} />
+
+        {/* Tela de Movimentação - acessível globalmente */}
+        <Stack.Screen
+          name="MovimentacaoForm"
+          component={MovimentacaoForm}
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: theme.colors.surface },
+            headerTitleStyle: { color: theme.colors.text },
+            title: "Nova Movimentação",
+          }}
+        />
 
         {/* Tela de Configurações */}
         <Stack.Screen
