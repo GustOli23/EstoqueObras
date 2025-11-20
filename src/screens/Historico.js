@@ -24,10 +24,18 @@ import { useThemeContext } from "../context/ThemeContext";
 // =================================================================
 // Card de Movimentação — (Opção B atualizada)
 // =================================================================
+// =================================================================
+// CARD DE MOVIMENTAÇÃO — versão corrigida e estilizada
+// =================================================================
 const MovimentacaoCard = ({ mov, theme }) => {
   const isSaida = mov.tipo === "saida";
-  const bgColor = isSaida ? theme.colors.errorLight : theme.colors.successLight;
-  const textColor = isSaida ? theme.colors.error : theme.colors.success;
+
+  // 🎨 Cores iguais ao MaterialCard
+  const bgColor = isSaida
+    ? "rgba(255, 99, 99, 0.22)" // vermelho suave
+    : "rgba(75, 142, 255, 0.22)"; // azul suave
+
+  const textColor = isSaida ? "#ff6b6b" : "#4ba3ff";
 
   return (
     <View
@@ -54,13 +62,13 @@ const MovimentacaoCard = ({ mov, theme }) => {
             {mov.material_nome}
           </Text>
 
-          <Text style={[styles.date, { color: theme.colors.textMuted }]}>
+          <Text style={[styles.date, { color: theme.colors.textLight }]}>
             {format(new Date(mov.created_date), "dd/MM/yyyy HH:mm")}
           </Text>
         </View>
       </View>
 
-      {/* NOME DA OBRA – LINHA SOZINHA */}
+      {/* Obra / Origem */}
       <Text
         style={{
           marginTop: 6,
@@ -73,15 +81,15 @@ const MovimentacaoCard = ({ mov, theme }) => {
         <Text style={{ fontWeight: "700" }}>{mov.obra_nome}</Text>
       </Text>
 
-      {/* Linha inferior – quantidade / valor */}
+      {/* Caixas de info */}
       <View style={[styles.cardBody, { marginTop: 12 }]}>
         {/* Quantidade */}
         <View
           style={[styles.infoBox, { backgroundColor: theme.colors.surfaceAlt }]}
         >
-          <Package color={theme.colors.textMuted} size={18} />
+          <Package color={theme.colors.textLight} size={18} />
           <View>
-            <Text style={[styles.infoLabel, { color: theme.colors.textMuted }]}>
+            <Text style={[styles.infoLabel, { color: theme.colors.textLight }]}>
               Quantidade ({mov.material_unidade_medida || "un"})
             </Text>
             <Text style={[styles.infoValue, { color: theme.colors.text }]}>
@@ -90,13 +98,13 @@ const MovimentacaoCard = ({ mov, theme }) => {
           </View>
         </View>
 
-        {/* Valor */}
+        {/* Valor total */}
         <View
           style={[styles.infoBox, { backgroundColor: theme.colors.surfaceAlt }]}
         >
-          <DollarSign color={theme.colors.textMuted} size={18} />
+          <DollarSign color={theme.colors.textLight} size={18} />
           <View>
-            <Text style={[styles.infoLabel, { color: theme.colors.textMuted }]}>
+            <Text style={[styles.infoLabel, { color: theme.colors.textLight }]}>
               Valor Total
             </Text>
             <Text style={[styles.infoValue, { color: theme.colors.text }]}>
@@ -107,7 +115,7 @@ const MovimentacaoCard = ({ mov, theme }) => {
       </View>
 
       {/* Observação */}
-      {mov.observacao ? (
+      {mov.observacao && (
         <Text
           style={[
             styles.observacao,
@@ -120,7 +128,7 @@ const MovimentacaoCard = ({ mov, theme }) => {
           <Text style={{ fontWeight: "600" }}>Obs: </Text>
           {mov.observacao}
         </Text>
-      ) : null}
+      )}
     </View>
   );
 };

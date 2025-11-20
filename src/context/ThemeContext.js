@@ -22,17 +22,20 @@ export const lightTheme = {
 export const darkTheme = {
   name: "dark",
   colors: {
-    background: "#111827",
-    surface: "#1f2937",
-    surfaceAlt: "#374151",
-    border: "#4b5563",
-    text: "#f9fafb",
-    textMuted: "#9ca3af",
-    textLight: "#d1d5db",
-    primary: "#1a1a1a",
-    secondary: "#333333",
+    background: "#0D1117", // Azul-marinho quase preto (GitHub Dark)
+    surface: "#161B22", // Cartões no tom certo
+    surfaceAlt: "#1F242C",
+    border: "#30363D",
+
+    text: "#E6EDF3", // Branco suave (perfeito no escuro)
+    textMuted: "#9BA3B4", // Azul-Cinza legível (em vez de cinza claro)
+    textLight: "#7D8694", // Azul acinzentado → melhor visibilidade
+
+    primary: "#1f6feb", // Azul escuro bonito (GitHub accent)
+    secondary: "#58A6FF", // Azul claro de destaque
   },
-  gradient: ["#1a1a1a", "#333333"],
+
+  gradient: ["#1f6feb", "#58A6FF"],
 };
 
 export const ThemeProvider = ({ children }) => {

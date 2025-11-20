@@ -3,21 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AlertTriangle, DollarSign, Edit, Package } from "lucide-react-native";
 import { useThemeContext } from "../context/ThemeContext";
 
-// 🔹 Badge estilizado
-const Badge = ({ children, isLowStock, theme }) => (
+// 🔹 Badge estilizado (corrigido: 100% visível no modo escuro)
+const Badge = ({ children, isLowStock }) => (
   <View
     style={[
       styles.badge,
       {
         backgroundColor: isLowStock
-          ? theme.colors.errorLight
-          : theme.colors.primaryLight,
+          ? "rgba(255, 99, 99, 0.22)" // vermelho suave
+          : "rgba(75, 142, 255, 0.22)", // azul suave
       },
     ]}
   >
     <Text
       style={{
-        color: isLowStock ? theme.colors.error : theme.colors.primary,
+        color: isLowStock ? "#ff6b6b" : "#4ba3ff",
         fontWeight: "600",
         fontSize: 12,
       }}
@@ -38,9 +38,7 @@ export default function MaterialCard({ material, onEdit }) {
         styles.card,
         {
           backgroundColor: theme.colors.surface,
-          borderColor: isLowStock
-            ? theme.colors.errorLight
-            : theme.colors.border,
+          borderColor: isLowStock ? "#ff6b6b55" : theme.colors.border,
         },
       ]}
     >
@@ -51,9 +49,7 @@ export default function MaterialCard({ material, onEdit }) {
             style={[
               styles.iconContainer,
               {
-                backgroundColor: isLowStock
-                  ? theme.colors.error
-                  : theme.colors.primary,
+                backgroundColor: isLowStock ? "#ff6b6b" : theme.colors.primary,
               },
             ]}
           >
@@ -67,7 +63,8 @@ export default function MaterialCard({ material, onEdit }) {
             >
               {material.nome}
             </Text>
-            <Badge isLowStock={isLowStock} theme={theme}>
+
+            <Badge isLowStock={isLowStock}>
               {isLowStock ? "Estoque Baixo" : "Em Estoque"}
             </Badge>
           </View>
@@ -79,7 +76,7 @@ export default function MaterialCard({ material, onEdit }) {
             <Text style={[styles.quantity, { color: theme.colors.text }]}>
               {material.quantidade}
             </Text>
-            <Text style={[styles.unit, { color: theme.colors.textMuted }]}>
+            <Text style={[styles.unit, { color: theme.colors.text }]}>
               {" "}
               {material.unidade_medida}
             </Text>
@@ -88,7 +85,7 @@ export default function MaterialCard({ material, onEdit }) {
           <TouchableOpacity
             style={[
               styles.editButton,
-              { backgroundColor: theme.colors.primaryLight },
+              { backgroundColor: "rgba(75, 142, 255, 0.22)" },
             ]}
             onPress={() => onEdit(material)}
           >
@@ -100,11 +97,9 @@ export default function MaterialCard({ material, onEdit }) {
       {/* Informações adicionais */}
       <View style={styles.detailsRow}>
         <View style={styles.detailItem}>
-          <DollarSign color={theme.colors.textMuted} size={18} />
+          <DollarSign color={theme.colors.text} size={18} />
           <View>
-            <Text
-              style={[styles.detailLabel, { color: theme.colors.textMuted }]}
-            >
+            <Text style={[styles.detailLabel, { color: theme.colors.text }]}>
               Valor Unit.
             </Text>
             <Text style={[styles.detailValue, { color: theme.colors.text }]}>
@@ -114,11 +109,9 @@ export default function MaterialCard({ material, onEdit }) {
         </View>
 
         <View style={styles.detailItem}>
-          <AlertTriangle color={theme.colors.textMuted} size={18} />
+          <AlertTriangle color={theme.colors.text} size={18} />
           <View>
-            <Text
-              style={[styles.detailLabel, { color: theme.colors.textMuted }]}
-            >
+            <Text style={[styles.detailLabel, { color: theme.colors.text }]}>
               Mínimo
             </Text>
             <Text style={[styles.detailValue, { color: theme.colors.text }]}>
@@ -136,9 +129,7 @@ export default function MaterialCard({ material, onEdit }) {
             { borderTopColor: theme.colors.border },
           ]}
         >
-          <Text
-            style={[styles.locationLabel, { color: theme.colors.textMuted }]}
-          >
+          <Text style={[styles.locationLabel, { color: theme.colors.text }]}>
             Local de Compra
           </Text>
           <Text style={[styles.locationValue, { color: theme.colors.text }]}>

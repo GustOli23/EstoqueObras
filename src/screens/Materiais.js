@@ -132,7 +132,8 @@ export default function Materiais() {
             <Picker
               selectedValue={filterStock}
               onValueChange={(v) => setFilterStock(v)}
-              style={[styles.picker, { color: theme.colors.text }]}
+              dropdownIconColor={theme.colors.text}
+              style={{ color: theme.colors.text }} // ← ESSENCIAL
             >
               <Picker.Item label="Todos os Materiais" value="all" />
               <Picker.Item label="Estoque Baixo" value="low" />
@@ -220,12 +221,15 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderRadius: 12,
-    height: 48,
-    justifyContent: "center",
+    height: 52, // ← altura maior
+    paddingHorizontal: 8, // ← mais espaço interno
+    justifyContent: "center", // ← mantém alinhamento correto
   },
+
   picker: {
-    height: 48,
+    height: 52, // ← mesma altura
     width: "100%",
+    color: "red", // o color é sobrescrito abaixo
   },
   addButton: {
     width: 48,

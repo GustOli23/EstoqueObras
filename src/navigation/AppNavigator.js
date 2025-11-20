@@ -3,6 +3,8 @@ import { TouchableOpacity, View } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import { useThemeContext } from "../context/ThemeContext";
 
 import Dashboard from "../screens/Dashboard";
@@ -26,7 +28,9 @@ import {
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-/* ---------------- BOTÃO NO HEADER ---------------- */
+/* ---------------------------------------------------------
+   BOTÃO DE CONFIG NO HEADER
+--------------------------------------------------------- */
 function HeaderConfigButton() {
   const navigation = useNavigation();
   const { theme } = useThemeContext();
@@ -41,8 +45,9 @@ function HeaderConfigButton() {
   );
 }
 
-/* -------------------- STACKS DAS TELAS -------------------- */
-
+/* ---------------------------------------------------------
+   STACK: DASHBOARD
+--------------------------------------------------------- */
 function DashboardStack() {
   const { theme } = useThemeContext();
   return (
@@ -51,6 +56,7 @@ function DashboardStack() {
         headerShown: true,
         headerStyle: { backgroundColor: theme.colors.surface },
         headerTitleStyle: { color: theme.colors.text },
+        headerTintColor: theme.colors.text,
         headerRight: () => <HeaderConfigButton />,
       }}
     >
@@ -63,6 +69,9 @@ function DashboardStack() {
   );
 }
 
+/* ---------------------------------------------------------
+   STACK: MATERIAIS
+--------------------------------------------------------- */
 function MateriaisStack() {
   const { theme } = useThemeContext();
   return (
@@ -71,14 +80,16 @@ function MateriaisStack() {
         headerShown: true,
         headerStyle: { backgroundColor: theme.colors.surface },
         headerTitleStyle: { color: theme.colors.text },
+        headerTintColor: theme.colors.text,
         headerRight: () => <HeaderConfigButton />,
       }}
     >
       <Stack.Screen
-        name="Materiais"
+        name="MateriaisList"
         component={Materiais}
         options={{ title: "Inventário de Materiais" }}
       />
+
       <Stack.Screen
         name="MaterialForm"
         component={MaterialForm}
@@ -88,6 +99,9 @@ function MateriaisStack() {
   );
 }
 
+/* ---------------------------------------------------------
+   STACK: OBRAS
+--------------------------------------------------------- */
 function ObrasStack() {
   const { theme } = useThemeContext();
   return (
@@ -96,14 +110,16 @@ function ObrasStack() {
         headerShown: true,
         headerStyle: { backgroundColor: theme.colors.surface },
         headerTitleStyle: { color: theme.colors.text },
+        headerTintColor: theme.colors.text,
         headerRight: () => <HeaderConfigButton />,
       }}
     >
       <Stack.Screen
-        name="Obras"
+        name="ObrasList"
         component={Obras}
         options={{ title: "Obras" }}
       />
+
       <Stack.Screen
         name="WorkFormScreen"
         component={WorkForm}
@@ -113,6 +129,9 @@ function ObrasStack() {
   );
 }
 
+/* ---------------------------------------------------------
+   STACK: HISTÓRICO
+--------------------------------------------------------- */
 function HistoricoStack() {
   const { theme } = useThemeContext();
   return (
@@ -121,6 +140,7 @@ function HistoricoStack() {
         headerShown: true,
         headerStyle: { backgroundColor: theme.colors.surface },
         headerTitleStyle: { color: theme.colors.text },
+        headerTintColor: theme.colors.text,
         headerRight: () => <HeaderConfigButton />,
       }}
     >
@@ -133,128 +153,140 @@ function HistoricoStack() {
   );
 }
 
-/* -------------------- TABS -------------------- */
+/* ---------------------------------------------------------
+   TABS
+--------------------------------------------------------- */
 function Tabs() {
   const { theme } = useThemeContext();
 
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          height: 60,
-          backgroundColor: theme.colors.surface,
-          borderTopColor: theme.colors.border,
-        },
-        tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.textMuted,
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={DashboardStack}
-        options={{
-          tabBarLabel: "Resumo",
-          tabBarIcon: ({ color, size }) => (
-            <LayoutDashboard color={color} size={size} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Materiais"
-        component={MateriaisStack}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Package color={color} size={size} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Add"
-        component={Dashboard} // componente qualquer apenas para preencher, não será mostrado
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            // abre o formulário de movimentação (agora registrado no stack global)
-            navigation.navigate("MovimentacaoForm");
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            height: 70,
+            paddingBottom: 12,
+            paddingTop: 6,
+            backgroundColor: theme.colors.surface,
+            borderTopColor: theme.colors.border,
           },
-        })}
-        options={{
-          tabBarLabel: "",
-          tabBarIcon: () => (
-            <View
-              style={{
-                width: 55,
-                height: 55,
-                backgroundColor: theme.colors.primary,
-                borderRadius: 30,
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 20,
-              }}
-            >
-              <Plus color="white" size={28} />
-            </View>
-          ),
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarInactiveTintColor: theme.colors.textMuted,
         }}
-      />
-
-      <Tab.Screen
-        name="Obras"
-        component={ObrasStack}
-        options={{
-          tabBarIcon: ({ color, size }) => <Wrench color={color} size={size} />,
-        }}
-      />
-
-      <Tab.Screen
-        name="Historico"
-        component={HistoricoStack}
-        options={{
-          tabBarLabel: "Histórico",
-          tabBarIcon: ({ color, size }) => (
-            <History color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
-/* -------------------- STACK GLOBAL -------------------- */
-export default function AppNavigator() {
-  const { theme } = useThemeContext();
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* TODAS AS TABS */}
-        <Stack.Screen name="Tabs" component={Tabs} />
-
-        {/* Tela de Movimentação - acessível globalmente */}
-        <Stack.Screen
-          name="MovimentacaoForm"
-          component={MovimentacaoForm}
+      >
+        <Tab.Screen
+          name="Home"
+          component={DashboardStack}
           options={{
-            headerShown: true,
-            headerStyle: { backgroundColor: theme.colors.surface },
-            headerTitleStyle: { color: theme.colors.text },
-            title: "Nova Movimentação",
+            tabBarLabel: "Resumo",
+            tabBarIcon: ({ color, size }) => (
+              <LayoutDashboard color={color} size={size} />
+            ),
           }}
         />
 
-        {/* Tela de Configurações */}
+        <Tab.Screen
+          name="Materiais"
+          component={MateriaisStack}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Package color={color} size={size} />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Add"
+          component={Dashboard}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate("MovimentacaoForm");
+            },
+          })}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: () => (
+              <View
+                style={{
+                  width: 58,
+                  height: 58,
+                  backgroundColor: theme.colors.primary,
+                  borderRadius: 32,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 26,
+                }}
+              >
+                <Plus color="white" size={28} />
+              </View>
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Obras"
+          component={ObrasStack}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Wrench color={color} size={size} />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Historico"
+          component={HistoricoStack}
+          options={{
+            tabBarLabel: "Histórico",
+            tabBarIcon: ({ color, size }) => (
+              <History color={color} size={size} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
+  );
+}
+
+/* ---------------------------------------------------------
+   STACK GLOBAL
+--------------------------------------------------------- */
+export default function AppNavigator() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Tabs" component={Tabs} />
+
+        <Stack.Screen
+          name="MovimentacaoForm"
+          component={MovimentacaoForm}
+          options={({ route }) => {
+            const { theme } = useThemeContext();
+            return {
+              headerShown: true,
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTitleStyle: { color: theme.colors.text },
+              headerTintColor: theme.colors.text,
+              title: "Nova Movimentação",
+            };
+          }}
+        />
+
         <Stack.Screen
           name="Configuracoes"
           component={Configuracoes}
-          options={{
-            headerShown: true,
-            headerStyle: { backgroundColor: theme.colors.surface },
-            headerTitleStyle: { color: theme.colors.text },
-            title: "Configurações",
+          options={({ route }) => {
+            const { theme } = useThemeContext();
+            return {
+              headerShown: true,
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTitleStyle: { color: theme.colors.text },
+              headerTintColor: theme.colors.text,
+              title: "Configurações",
+            };
           }}
         />
       </Stack.Navigator>

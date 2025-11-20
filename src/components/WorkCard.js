@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useThemeContext } from "../context/ThemeContext";
 
-// 🔹 Função auxiliar para formatação de data
+// Formatação
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
   try {
@@ -22,30 +22,36 @@ const formatDate = (dateString) => {
   }
 };
 
-// 🔹 Badge de status da obra
-const StatusBadge = ({ status, theme }) => {
-  let backgroundColor = theme.colors.primaryLight;
-  let color = theme.colors.primary;
-
-  if (status === "arquivada") {
-    backgroundColor = theme.colors.border;
-    color = theme.colors.textMuted;
-  } else if (status === "ativa") {
-    backgroundColor = theme.colors.successLight;
-    color = theme.colors.success;
-  }
-
-  const label = status === "arquivada" ? "Arquivada" : "Ativa";
+// Badge estilizado (igual ao MaterialCard)
+const StatusBadge = ({ status }) => {
+  const isArchived = status === "arquivada";
 
   return (
-    <View style={[styles.badge, { backgroundColor }]}>
-      <Text style={[styles.badgeText, { color }]}>{label}</Text>
+    <View
+      style={[
+        styles.badge,
+        {
+          backgroundColor: isArchived
+            ? "rgba(255, 99, 99, 0.22)"
+            : "rgba(75, 142, 255, 0.22)",
+        },
+      ]}
+    >
+      <Text
+        style={{
+          color: isArchived ? "#ff6b6b" : "#4ba3ff",
+          fontWeight: "600",
+          fontSize: 12,
+        }}
+      >
+        {isArchived ? "Arquivada" : "Ativa"}
+      </Text>
     </View>
   );
 };
 
-// 🔹 Cartão principal
-export default function WorkCard({ obra, onEdit, onArchive }) {
+// CARD DA OBRA
+export default function WorkCard({ obra, onEdit, onArchive, onUnarchive }) {
   const { theme } = useThemeContext();
   const isArchived = obra.status === "arquivada";
 
@@ -55,7 +61,7 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
         styles.card,
         {
           backgroundColor: theme.colors.surface,
-          borderColor: theme.colors.border,
+          borderColor: isArchived ? "#ff6b6b55" : theme.colors.border,
         },
       ]}
     >
@@ -66,9 +72,7 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
             style={[
               styles.iconContainer,
               {
-                backgroundColor: isArchived
-                  ? theme.colors.textMuted
-                  : theme.colors.primary,
+                backgroundColor: isArchived ? "#ff6b6b" : theme.colors.primary,
               },
             ]}
           >
@@ -82,7 +86,8 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
             >
               {obra.nome_cliente}
             </Text>
-            <StatusBadge status={obra.status} theme={theme} />
+
+            <StatusBadge status={obra.status} />
           </View>
         </View>
 
@@ -91,7 +96,7 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
             onPress={() => onEdit(obra)}
             style={[
               styles.editButton,
-              { backgroundColor: theme.colors.primaryLight },
+              { backgroundColor: "rgba(75, 142, 255, 0.22)" },
             ]}
           >
             <Edit color={theme.colors.primary} size={18} />
@@ -101,11 +106,10 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
 
       {/* Corpo */}
       <View style={styles.body}>
-        {/* Local */}
         <View style={styles.row}>
-          <MapPin color={theme.colors.textMuted} size={18} />
+          <MapPin color={theme.colors.text} size={18} />
           <View style={styles.detail}>
-            <Text style={[styles.label, { color: theme.colors.textMuted }]}>
+            <Text style={[styles.label, { color: theme.colors.text }]}>
               Local
             </Text>
             <Text style={[styles.value, { color: theme.colors.text }]}>
@@ -114,11 +118,10 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
           </View>
         </View>
 
-        {/* Data de início */}
         <View style={styles.row}>
-          <Calendar color={theme.colors.textMuted} size={18} />
+          <Calendar color={theme.colors.text} size={18} />
           <View style={styles.detail}>
-            <Text style={[styles.label, { color: theme.colors.textMuted }]}>
+            <Text style={[styles.label, { color: theme.colors.text }]}>
               Data de Início
             </Text>
             <Text style={[styles.value, { color: theme.colors.text }]}>
@@ -127,7 +130,6 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
           </View>
         </View>
 
-        {/* Observações */}
         {obra.observacoes && (
           <View
             style={[
@@ -143,40 +145,43 @@ export default function WorkCard({ obra, onEdit, onArchive }) {
         )}
       </View>
 
-      {/* Botão de Arquivar / Arquivada */}
-      {onArchive && (
+      {/* BOTÃO DE ARQUIVAR / DESARQUIVAR */}
+      {isArchived ? (
+        // Botão DESARQUIVAR
         <TouchableOpacity
-          onPress={() => onArchive(obra)}
-          disabled={isArchived}
+          onPress={() => onUnarchive && onUnarchive(obra)}
           style={[
             styles.archiveButton,
             {
-              backgroundColor: isArchived
-                ? theme.colors.border
-                : theme.colors.warningLight,
-              borderColor: isArchived
-                ? theme.colors.border
-                : theme.colors.warning,
-              opacity: isArchived ? 0.6 : 1,
+              backgroundColor: "rgba(75, 142, 255, 0.22)", // fundo azul suave
+              borderColor: theme.colors.primary, // borda azul
             },
           ]}
         >
           <Archive
-            color={isArchived ? theme.colors.textMuted : theme.colors.warning}
+            color={theme.colors.primary}
             size={18}
             style={{ marginRight: 6 }}
           />
-          <Text
-            style={[
-              styles.archiveText,
-              {
-                color: isArchived
-                  ? theme.colors.textMuted
-                  : theme.colors.warning,
-              },
-            ]}
-          >
-            {isArchived ? "Obra Arquivada" : "Arquivar Obra"}
+          <Text style={[styles.archiveText, { color: theme.colors.primary }]}>
+            Reativar Obra
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        // Botão ARQUIVAR
+        <TouchableOpacity
+          onPress={() => onArchive && onArchive(obra)}
+          style={[
+            styles.archiveButton,
+            {
+              backgroundColor: "rgba(255, 99, 99, 0.22)", // vermelho suave
+              borderColor: "#ff6b6b55",
+            },
+          ]}
+        >
+          <Archive color="#ff6b6b" size={18} style={{ marginRight: 6 }} />
+          <Text style={[styles.archiveText, { color: "#ff6b6b" }]}>
+            Arquivar Obra
           </Text>
         </TouchableOpacity>
       )}
@@ -190,14 +195,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
-    shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
   header: {
     flexDirection: "row",
-    alignItems: "flex-start",
     justifyContent: "space-between",
     paddingBottom: 12,
     borderBottomWidth: 1,
@@ -207,13 +210,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
+    paddingRight: 8,
   },
   iconContainer: {
     padding: 10,
     borderRadius: 12,
   },
   titleContainer: {
-    marginLeft: 10,
+    marginLeft: 12,
     flex: 1,
   },
   title: {
@@ -225,50 +229,30 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10,
   },
-  body: {
-    gap: 10,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
+  body: { gap: 10 },
+  row: { flexDirection: "row", gap: 10, alignItems: "center" },
   detail: { flex: 1 },
-  label: {
-    fontSize: 12,
-  },
-  value: {
-    fontSize: 14,
-    fontWeight: "600",
-  },
+  label: { fontSize: 12 },
+  value: { fontSize: 14, fontWeight: "600" },
   observacaoContainer: {
     borderTopWidth: 1,
     paddingTop: 10,
     marginTop: 8,
   },
-  observacao: {
-    fontSize: 13,
-  },
+  observacao: { fontSize: 13 },
   badge: {
     alignSelf: "flex-start",
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 10,
-  },
-  badgeText: {
-    fontSize: 11,
-    fontWeight: "600",
+    borderRadius: 12,
   },
   archiveButton: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 12,
     borderWidth: 1,
-    borderRadius: 10,
-    paddingVertical: 10,
-    marginTop: 16,
+    borderRadius: 12,
+    justifyContent: "center",
+    marginTop: 14,
   },
-  archiveText: {
-    fontWeight: "600",
-  },
+  archiveText: { fontWeight: "600" },
 });

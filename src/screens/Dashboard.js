@@ -10,35 +10,24 @@ import { useNavigation } from "@react-navigation/native";
 import { useThemeContext } from "../context/ThemeContext";
 import { useData } from "../context/DataService";
 import StatsCard from "../components/StatsCard";
-import { MoveRight, AlertTriangle } from "lucide-react-native";
+import { AlertTriangle } from "lucide-react-native";
 
 export default function Dashboard() {
   const navigation = useNavigation();
   const { theme } = useThemeContext();
 
-  // Dados globais
   const { materials = [], obras = [], movimentacoes = [] } = useData();
 
-  // -----------------------------------------
-  // TOTAL DE MATERIAIS
-  // -----------------------------------------
   const totalMateriais = materials.length;
 
-  // -----------------------------------------
-  // TOTAL EM ESTOQUE = quantidade * valor_unitário
-  // -----------------------------------------
   const totalEstoque = materials.reduce((sum, item) => {
     const qtd = Number(item.quantidade) || 0;
     const val = Number(item.valor_unitario) || 0;
     return sum + qtd * val;
   }, 0);
 
-  // -----------------------------------------
-  // PARSE DE DATA ROBUSTO (corrige datas no APK)
-  // -----------------------------------------
   function parseDataMov(str) {
     if (!str) return null;
-
     let d = new Date(str);
     if (!isNaN(d)) return d;
 
@@ -51,15 +40,11 @@ export default function Dashboard() {
       const min = Number(p[4] || 0);
       return new Date(ano, mes, dia, hora, min);
     }
-
     return null;
   }
 
   const hoje = new Date();
 
-  // -----------------------------------------
-  // MOVIMENTAÇÕES NO MÊS (CONTAGEM)
-  // -----------------------------------------
   const movMes = movimentacoes.filter((m) => {
     const d = parseDataMov(m.created_date);
     if (!d) return false;
@@ -69,24 +54,15 @@ export default function Dashboard() {
   });
 
   const totalMovMes = movMes.length;
+  const valorMovMes = movMes.reduce(
+    (acc, mov) => acc + (Number(mov.valor_total) || 0),
+    0
+  );
 
-  // -----------------------------------------
-  // VALOR MOVIMENTADO NO MÊS
-  // -----------------------------------------
-  const valorMovMes = movMes.reduce((acc, mov) => {
-    return acc + (Number(mov.valor_total) || 0);
-  }, 0);
-
-  // -----------------------------------------
-  // ALERTAS DE ESTOQUE (quantidade <= mínimo)
-  // -----------------------------------------
   const alertsCount = materials.filter(
     (item) => Number(item.quantidade) <= Number(item.estoque_minimo)
   ).length;
 
-  // -----------------------------------------
-  // VALOR MOVIMENTADO POR OBRA
-  // -----------------------------------------
   const valoresPorObra = useMemo(() => {
     const mapa = {};
     movimentacoes.forEach((mov) => {
@@ -97,9 +73,6 @@ export default function Dashboard() {
     return mapa;
   }, [movimentacoes]);
 
-  // -----------------------------------------
-  // RENDER
-  // -----------------------------------------
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: theme.colors.background }}
@@ -109,9 +82,10 @@ export default function Dashboard() {
         Resumo Geral
       </Text>
 
+      {/* === GRID SUPERIOR === */}
       <View style={styles.grid}>
         <StatsCard
-          title="Materiais (SKUs)"
+          title="Materiais"
           value={totalMateriais}
           description="Cadastrados no sistema"
         />
@@ -135,8 +109,9 @@ export default function Dashboard() {
         />
       </View>
 
+      {/* === DOIS CARDS INFERIORES ALINHADOS === */}
       <View style={styles.row}>
-        {/* MOVIMENTAÇÕES DO MÊS */}
+        {/* MOVIMENTAÇÕES */}
         <TouchableOpacity
           style={[styles.block, { backgroundColor: theme.colors.surface }]}
           onPress={() => navigation.navigate("Historico")}
@@ -156,29 +131,27 @@ export default function Dashboard() {
           </Text>
         </TouchableOpacity>
 
-        {/* ALERTAS */}
+        {/* ALERTAS — FUNDO VINHO */}
         <TouchableOpacity
-          style={[styles.block, { backgroundColor: theme.colors.surface }]}
+          style={[styles.block, { backgroundColor: "#4C1D3C" }]}
           onPress={() => navigation.navigate("Materiais")}
         >
           <View style={styles.blockHeader}>
-            <Text style={[styles.blockTitle, { color: theme.colors.text }]}>
-              Alertas
-            </Text>
-            <AlertTriangle color={theme.colors.warning} size={18} />
+            <Text style={[styles.blockTitle, { color: "#fff" }]}>Alertas</Text>
+            <AlertTriangle color="#fff" size={18} />
           </View>
 
-          <Text style={[styles.blockValue, { color: theme.colors.warning }]}>
+          <Text style={[styles.blockValue, { color: "#fff" }]}>
             {alertsCount}
           </Text>
 
-          <Text style={[styles.blockSub, { color: theme.colors.textMuted }]}>
+          <Text style={[styles.blockSub, { color: "#e5e5e5" }]}>
             Itens com estoque crítico
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* VALOR POR OBRA */}
+      {/* === VALOR POR OBRA === */}
       <Text
         style={[
           styles.sectionTitle,
@@ -236,6 +209,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
+    gap: 16, // ← alinhamento igual ao grid
     marginTop: 20,
   },
 
@@ -244,7 +218,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
     elevation: 2,
-    marginRight: 10,
   },
 
   blockHeader: {
