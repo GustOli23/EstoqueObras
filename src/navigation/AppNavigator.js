@@ -46,24 +46,30 @@ function HeaderConfigButton() {
 }
 
 /* ---------------------------------------------------------
+   FUNÇÃO AUXILIAR: RETORNA OPÇÕES DO HEADER SEM CHAMAR HOOKS
+--------------------------------------------------------- */
+function createHeaderOptions(theme, title, showConfigButton = true) {
+  return {
+    headerShown: true,
+    title,
+    headerStyle: { backgroundColor: theme.colors.surface },
+    headerTitleStyle: { color: theme.colors.text },
+    headerTintColor: theme.colors.text,
+    headerRight: showConfigButton ? () => <HeaderConfigButton /> : undefined,
+  };
+}
+
+/* ---------------------------------------------------------
    STACK: DASHBOARD
 --------------------------------------------------------- */
 function DashboardStack() {
   const { theme } = useThemeContext();
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: theme.colors.surface },
-        headerTitleStyle: { color: theme.colors.text },
-        headerTintColor: theme.colors.text,
-        headerRight: () => <HeaderConfigButton />,
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="DashboardHome"
         component={Dashboard}
-        options={{ title: "Resumo Geral" }}
+        options={createHeaderOptions(theme, "Resumo Geral", true)}
       />
     </Stack.Navigator>
   );
@@ -74,26 +80,19 @@ function DashboardStack() {
 --------------------------------------------------------- */
 function MateriaisStack() {
   const { theme } = useThemeContext();
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: theme.colors.surface },
-        headerTitleStyle: { color: theme.colors.text },
-        headerTintColor: theme.colors.text,
-        headerRight: () => <HeaderConfigButton />,
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="MateriaisList"
         component={Materiais}
-        options={{ title: "Inventário de Materiais" }}
+        options={createHeaderOptions(theme, "Inventário de Materiais", true)}
       />
 
       <Stack.Screen
         name="MaterialForm"
         component={MaterialForm}
-        options={{ title: "Novo Material" }}
+        options={createHeaderOptions(theme, "Novo Material", false)}
       />
     </Stack.Navigator>
   );
@@ -104,26 +103,19 @@ function MateriaisStack() {
 --------------------------------------------------------- */
 function ObrasStack() {
   const { theme } = useThemeContext();
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: theme.colors.surface },
-        headerTitleStyle: { color: theme.colors.text },
-        headerTintColor: theme.colors.text,
-        headerRight: () => <HeaderConfigButton />,
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="ObrasList"
         component={Obras}
-        options={{ title: "Obras" }}
+        options={createHeaderOptions(theme, "Obras", true)}
       />
 
       <Stack.Screen
         name="WorkFormScreen"
         component={WorkForm}
-        options={{ title: "Cadastro de Obra" }}
+        options={createHeaderOptions(theme, "Cadastro de Obra", false)}
       />
     </Stack.Navigator>
   );
@@ -134,20 +126,13 @@ function ObrasStack() {
 --------------------------------------------------------- */
 function HistoricoStack() {
   const { theme } = useThemeContext();
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: theme.colors.surface },
-        headerTitleStyle: { color: theme.colors.text },
-        headerTintColor: theme.colors.text,
-        headerRight: () => <HeaderConfigButton />,
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="HistoricoScreen"
         component={Historico}
-        options={{ title: "Histórico" }}
+        options={createHeaderOptions(theme, "Histórico", true)}
       />
     </Stack.Navigator>
   );
@@ -255,6 +240,8 @@ function Tabs() {
    STACK GLOBAL
 --------------------------------------------------------- */
 export default function AppNavigator() {
+  const { theme } = useThemeContext();
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -263,31 +250,13 @@ export default function AppNavigator() {
         <Stack.Screen
           name="MovimentacaoForm"
           component={MovimentacaoForm}
-          options={({ route }) => {
-            const { theme } = useThemeContext();
-            return {
-              headerShown: true,
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTitleStyle: { color: theme.colors.text },
-              headerTintColor: theme.colors.text,
-              title: "Nova Movimentação",
-            };
-          }}
+          options={createHeaderOptions(theme, "Nova Movimentação", false)}
         />
 
         <Stack.Screen
           name="Configuracoes"
           component={Configuracoes}
-          options={({ route }) => {
-            const { theme } = useThemeContext();
-            return {
-              headerShown: true,
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTitleStyle: { color: theme.colors.text },
-              headerTintColor: theme.colors.text,
-              title: "Configurações",
-            };
-          }}
+          options={createHeaderOptions(theme, "Configurações", false)}
         />
       </Stack.Navigator>
     </NavigationContainer>
