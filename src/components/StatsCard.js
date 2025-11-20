@@ -116,7 +116,7 @@ export default function StatsCard({
           ) : null}
         </View>
 
-        <IconBox />
+        {/* REMOVIDO IconBox: se quiser manter o ícone, substitua por <IconComponent /> simples */}
       </View>
     </View>
   );

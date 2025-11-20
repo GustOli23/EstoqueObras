@@ -75,7 +75,7 @@ function MateriaisStack() {
       }}
     >
       <Stack.Screen
-        name="MateriaisList"
+        name="Materiais"
         component={Materiais}
         options={{ title: "Inventário de Materiais" }}
       />
@@ -100,7 +100,7 @@ function ObrasStack() {
       }}
     >
       <Stack.Screen
-        name="ObrasList"
+        name="Obras"
         component={Obras}
         options={{ title: "Obras" }}
       />
@@ -125,7 +125,7 @@ function HistoricoStack() {
       }}
     >
       <Stack.Screen
-        name="HistoricoList"
+        name="HistoricoScreen"
         component={Historico}
         options={{ title: "Histórico" }}
       />

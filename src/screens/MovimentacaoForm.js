@@ -98,7 +98,7 @@ export default function MovimentacaoForm() {
           newMov.quantidade
         } ${selectedMaterial.unidade_medida} concluída.`,
       });
-      navigation.navigate("Historico");
+      navigation.navigate("Tabs", { screen: "Historico" });
     } catch {
       Alert.alert("Erro", "Não foi possível registrar a movimentação.");
     }

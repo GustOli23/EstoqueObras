@@ -10,105 +10,133 @@ import { useNavigation } from "@react-navigation/native";
 import { useThemeContext } from "../context/ThemeContext";
 import { useData } from "../context/DataService";
 import StatsCard from "../components/StatsCard";
-
-// Ícones para os blocos de Movimentação + Alertas
 import { MoveRight, AlertTriangle } from "lucide-react-native";
 
 export default function Dashboard() {
   const navigation = useNavigation();
   const { theme } = useThemeContext();
-  const { materiais, obras, movimentacoes } = useData();
 
-  // Proteção contra undefined
-  const safeMateriais = materiais || [];
-  const safeObras = obras || [];
-  const safeMovs = movimentacoes || [];
+  // Dados globais
+  const { materials = [], obras = [], movimentacoes = [] } = useData();
 
-  // --- Estatísticas principais ---
-  const totalMateriais = safeMateriais.length;
+  // -----------------------------------------
+  // TOTAL DE MATERIAIS
+  // -----------------------------------------
+  const totalMateriais = materials.length;
 
-  const totalEstoque = safeMateriais.reduce(
-    (sum, item) => sum + (item.valor_unitario || 0) * (item.estoque_atual || 0),
-    0
-  );
+  // -----------------------------------------
+  // TOTAL EM ESTOQUE = quantidade * valor_unitário
+  // -----------------------------------------
+  const totalEstoque = materials.reduce((sum, item) => {
+    const qtd = Number(item.quantidade) || 0;
+    const val = Number(item.valor_unitario) || 0;
+    return sum + qtd * val;
+  }, 0);
 
-  const totalMetragem = safeObras.reduce(
-    (sum, o) => sum + (parseFloat(o.metragem) || 0),
-    0
-  );
+  // -----------------------------------------
+  // PARSE DE DATA ROBUSTO (corrige datas no APK)
+  // -----------------------------------------
+  function parseDataMov(str) {
+    if (!str) return null;
 
-  const totalMovMes = safeMovs.length;
+    let d = new Date(str);
+    if (!isNaN(d)) return d;
 
-  const alertsCount = safeMateriais.filter(
-    (item) => item.estoque_atual <= item.estoque_minimo
+    const p = str.split(/[/ :]/);
+    if (p.length >= 3) {
+      const dia = Number(p[0]);
+      const mes = Number(p[1]) - 1;
+      const ano = Number(p[2]);
+      const hora = Number(p[3] || 0);
+      const min = Number(p[4] || 0);
+      return new Date(ano, mes, dia, hora, min);
+    }
+
+    return null;
+  }
+
+  const hoje = new Date();
+
+  // -----------------------------------------
+  // MOVIMENTAÇÕES NO MÊS (CONTAGEM)
+  // -----------------------------------------
+  const movMes = movimentacoes.filter((m) => {
+    const d = parseDataMov(m.created_date);
+    if (!d) return false;
+    return (
+      d.getFullYear() === hoje.getFullYear() && d.getMonth() === hoje.getMonth()
+    );
+  });
+
+  const totalMovMes = movMes.length;
+
+  // -----------------------------------------
+  // VALOR MOVIMENTADO NO MÊS
+  // -----------------------------------------
+  const valorMovMes = movMes.reduce((acc, mov) => {
+    return acc + (Number(mov.valor_total) || 0);
+  }, 0);
+
+  // -----------------------------------------
+  // ALERTAS DE ESTOQUE (quantidade <= mínimo)
+  // -----------------------------------------
+  const alertsCount = materials.filter(
+    (item) => Number(item.quantidade) <= Number(item.estoque_minimo)
   ).length;
 
-  // --- Valor movimentado por obra ---
+  // -----------------------------------------
+  // VALOR MOVIMENTADO POR OBRA
+  // -----------------------------------------
   const valoresPorObra = useMemo(() => {
     const mapa = {};
-
-    safeMovs.forEach((mov) => {
-      if (!mov.obraId) return;
-
-      const valor = mov.quantidade * mov.valorUnitario;
-
-      if (!mapa[mov.obraId]) mapa[mov.obraId] = 0;
-      mapa[mov.obraId] += valor;
+    movimentacoes.forEach((mov) => {
+      const id = mov.obra_id || mov.obraId;
+      if (!id) return;
+      mapa[id] = (mapa[id] || 0) + (Number(mov.valor_total) || 0);
     });
-
     return mapa;
   }, [movimentacoes]);
 
+  // -----------------------------------------
+  // RENDER
+  // -----------------------------------------
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: theme.colors.background }}
       contentContainerStyle={{ padding: 20 }}
     >
-      {/* Título */}
-      <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.text }]}>
-          Resumo Geral
-        </Text>
-      </View>
+      <Text style={[styles.title, { color: theme.colors.text }]}>
+        Resumo Geral
+      </Text>
 
-      {/* GRID DE CARDS */}
       <View style={styles.grid}>
         <StatsCard
           title="Materiais (SKUs)"
           value={totalMateriais}
           description="Cadastrados no sistema"
-          icon="cube"
-          color="blue"
         />
 
         <StatsCard
           title="Valor em Estoque"
           value={`R$ ${totalEstoque.toFixed(2)}`}
-          description="Soma de quantidades × valor unitário"
-          icon="wallet"
-          color="green"
+          description="Quantidades × valor"
         />
 
         <StatsCard
-          title="Área Total das Obras"
-          value={`${totalMetragem.toFixed(2)} m²`}
-          description="Metragem somada"
-          icon="ruler"
-          color="orange"
+          title="Valor Movimentado (mês)"
+          value={`R$ ${valorMovMes.toFixed(2)}`}
+          description="Valor total do mês"
         />
 
         <StatsCard
           title="Obras Ativas"
-          value={safeObras.filter((o) => o.status === "ativa").length}
+          value={obras.filter((o) => o.status === "ativa").length}
           description="Registradas"
-          icon="layers"
-          color="gray"
         />
       </View>
 
-      {/* MOVIMENTAÇÕES + ALERTAS */}
       <View style={styles.row}>
-        {/* Movimentações */}
+        {/* MOVIMENTAÇÕES DO MÊS */}
         <TouchableOpacity
           style={[styles.block, { backgroundColor: theme.colors.surface }]}
           onPress={() => navigation.navigate("Historico")}
@@ -117,7 +145,6 @@ export default function Dashboard() {
             <Text style={[styles.blockTitle, { color: theme.colors.text }]}>
               Movimentações (mês)
             </Text>
-            <MoveRight color={theme.colors.text} size={18} />
           </View>
 
           <Text style={[styles.blockValue, { color: theme.colors.primary }]}>
@@ -125,11 +152,11 @@ export default function Dashboard() {
           </Text>
 
           <Text style={[styles.blockSub, { color: theme.colors.textMuted }]}>
-            {totalMovMes} totais
+            {totalMovMes} no mês atual
           </Text>
         </TouchableOpacity>
 
-        {/* Alertas */}
+        {/* ALERTAS */}
         <TouchableOpacity
           style={[styles.block, { backgroundColor: theme.colors.surface }]}
           onPress={() => navigation.navigate("Materiais")}
@@ -151,7 +178,7 @@ export default function Dashboard() {
         </TouchableOpacity>
       </View>
 
-      {/* VALOR MOVIMENTADO POR OBRA */}
+      {/* VALOR POR OBRA */}
       <Text
         style={[
           styles.sectionTitle,
@@ -162,7 +189,7 @@ export default function Dashboard() {
       </Text>
 
       <View style={styles.obraList}>
-        {safeObras.map((obra) => (
+        {obras.map((obra) => (
           <View
             key={obra.id}
             style={[
@@ -180,12 +207,10 @@ export default function Dashboard() {
           </View>
         ))}
 
-        {/* TOTAL */}
         <View style={styles.obraItem}>
           <Text style={[styles.obraName, { color: theme.colors.textMuted }]}>
             Total geral:
           </Text>
-
           <Text style={[styles.obraValue, { color: theme.colors.primary }]}>
             R$
             {Object.values(valoresPorObra)
@@ -198,11 +223,8 @@ export default function Dashboard() {
   );
 }
 
-/* ---------- ESTILOS ---------- */
-
 const styles = StyleSheet.create({
-  header: { marginBottom: 12 },
-  title: { fontSize: 26, fontWeight: "bold" },
+  title: { fontSize: 26, fontWeight: "bold", marginBottom: 16 },
 
   grid: {
     flexDirection: "row",
