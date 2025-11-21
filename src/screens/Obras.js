@@ -11,12 +11,12 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Archive, Plus } from "lucide-react-native";
 import { useData } from "../context/DataService";
-import { useThemeContext } from "../context/ThemeContext"; // <---- IMPORTANTE
+import { useThemeContext } from "../context/ThemeContext";
 import WorkCard from "../components/WorkCard";
 
 export default function Obras() {
   const navigation = useNavigation();
-  const { theme } = useThemeContext(); // <---- TEMA AQUI
+  const { theme } = useThemeContext();
   const { obras, updateObra } = useData();
   const [tab, setTab] = useState("ativas");
   const [obraToArchive, setObraToArchive] = useState(null);
@@ -61,7 +61,6 @@ export default function Obras() {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      {/* HEADER */}
       <View
         style={[
           styles.header,
@@ -88,7 +87,6 @@ export default function Obras() {
           </TouchableOpacity>
         </View>
 
-        {/* TABS */}
         <View
           style={[
             styles.tabsContainer,
@@ -148,7 +146,6 @@ export default function Obras() {
         </View>
       </View>
 
-      {/* LISTA */}
       {filteredObras.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={[styles.emptyText, { color: theme.colors.textMuted }]}>
@@ -171,7 +168,6 @@ export default function Obras() {
         />
       )}
 
-      {/* MODAL */}
       <Modal
         animationType="fade"
         transparent={true}

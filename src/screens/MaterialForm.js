@@ -155,13 +155,11 @@ export default function MaterialForm() {
           />
         </View>
 
-        {/* Unidade de medida */}
         <UnitPicker
           value={formData.unidade_medida}
           onChange={(v) => handleChange("unidade_medida", v)}
         />
 
-        {/* Quantidade e valor unitário */}
         <View style={styles.row}>
           <View style={[styles.flexItem]}>
             <Text style={[styles.label, { color: theme.colors.text }]}>
@@ -206,7 +204,6 @@ export default function MaterialForm() {
           </View>
         </View>
 
-        {/* Estoque mínimo e local */}
         <View style={styles.row}>
           <View style={[styles.flexItem]}>
             <Text style={[styles.label, { color: theme.colors.text }]}>
@@ -250,7 +247,6 @@ export default function MaterialForm() {
           </View>
         </View>
 
-        {/* Botões */}
         <View style={styles.buttonRow}>
           {materialToEdit && (
             <TouchableOpacity

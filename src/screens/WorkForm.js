@@ -17,9 +17,6 @@ import { ptBR } from "date-fns/locale";
 import { useData } from "../context/DataService";
 import { useThemeContext } from "../context/ThemeContext";
 
-// =================================================================
-// Componentes auxiliares
-// =================================================================
 const Label = ({ children, theme, required }) => (
   <Text style={[styles.label, { color: theme.colors.textMuted }]}>
     {children}
@@ -59,9 +56,6 @@ const FormTextArea = ({ theme, ...props }) => (
   />
 );
 
-// =================================================================
-// Formulário de Obras
-// =================================================================
 export default function WorkForm({ isLoading: propIsLoading = false }) {
   const navigation = useNavigation();
   const route = useRoute();
@@ -188,7 +182,6 @@ export default function WorkForm({ isLoading: propIsLoading = false }) {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
       contentContainerStyle={styles.content}
     >
-      {/* Nome do Cliente */}
       <View style={styles.section}>
         <Label theme={theme} required>
           Nome do Cliente / Projeto
@@ -202,7 +195,6 @@ export default function WorkForm({ isLoading: propIsLoading = false }) {
         />
       </View>
 
-      {/* Local */}
       <View style={styles.section}>
         <Label theme={theme} required>
           Localização
@@ -216,7 +208,6 @@ export default function WorkForm({ isLoading: propIsLoading = false }) {
         />
       </View>
 
-      {/* Metragem */}
       <View style={styles.section}>
         <Label theme={theme}>Área / Volume da Obra</Label>
         <FormInput
@@ -228,7 +219,6 @@ export default function WorkForm({ isLoading: propIsLoading = false }) {
         />
       </View>
 
-      {/* Valor Total */}
       <View style={styles.section}>
         <Label theme={theme}>Valor Total Estimado (R$)</Label>
         <FormInput
@@ -242,7 +232,6 @@ export default function WorkForm({ isLoading: propIsLoading = false }) {
         />
       </View>
 
-      {/* Datas */}
       <View style={styles.row}>
         <View style={{ flex: 1 }}>
           <Label theme={theme}>Data de Início</Label>
@@ -300,7 +289,6 @@ export default function WorkForm({ isLoading: propIsLoading = false }) {
         />
       )}
 
-      {/* Observações */}
       <View style={styles.section}>
         <Label theme={theme}>Observações</Label>
         <FormTextArea
@@ -311,7 +299,6 @@ export default function WorkForm({ isLoading: propIsLoading = false }) {
         />
       </View>
 
-      {/* Botões */}
       <View style={styles.actions}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}

@@ -21,19 +21,12 @@ import { Picker } from "@react-native-picker/picker";
 import { useData } from "../context/DataService";
 import { useThemeContext } from "../context/ThemeContext";
 
-// =================================================================
-// Card de Movimentação — (Opção B atualizada)
-// =================================================================
-// =================================================================
-// CARD DE MOVIMENTAÇÃO — versão corrigida e estilizada
-// =================================================================
 const MovimentacaoCard = ({ mov, theme }) => {
   const isSaida = mov.tipo === "saida";
 
-  // 🎨 Cores iguais ao MaterialCard
   const bgColor = isSaida
-    ? "rgba(255, 99, 99, 0.22)" // vermelho suave
-    : "rgba(75, 142, 255, 0.22)"; // azul suave
+    ? "rgba(255, 99, 99, 0.22)"
+    : "rgba(75, 142, 255, 0.22)";
 
   const textColor = isSaida ? "#ff6b6b" : "#4ba3ff";
 
@@ -47,7 +40,6 @@ const MovimentacaoCard = ({ mov, theme }) => {
         },
       ]}
     >
-      {/* Cabeçalho */}
       <View style={styles.row}>
         <View style={[styles.iconContainer, { backgroundColor: bgColor }]}>
           <ArrowDownCircle color={textColor} size={20} />
@@ -68,7 +60,6 @@ const MovimentacaoCard = ({ mov, theme }) => {
         </View>
       </View>
 
-      {/* Obra / Origem */}
       <Text
         style={{
           marginTop: 6,
@@ -81,9 +72,7 @@ const MovimentacaoCard = ({ mov, theme }) => {
         <Text style={{ fontWeight: "700" }}>{mov.obra_nome}</Text>
       </Text>
 
-      {/* Caixas de info */}
       <View style={[styles.cardBody, { marginTop: 12 }]}>
-        {/* Quantidade */}
         <View
           style={[styles.infoBox, { backgroundColor: theme.colors.surfaceAlt }]}
         >
@@ -98,7 +87,6 @@ const MovimentacaoCard = ({ mov, theme }) => {
           </View>
         </View>
 
-        {/* Valor total */}
         <View
           style={[styles.infoBox, { backgroundColor: theme.colors.surfaceAlt }]}
         >
@@ -114,7 +102,6 @@ const MovimentacaoCard = ({ mov, theme }) => {
         </View>
       </View>
 
-      {/* Observação */}
       {mov.observacao && (
         <Text
           style={[
@@ -133,9 +120,6 @@ const MovimentacaoCard = ({ mov, theme }) => {
   );
 };
 
-// =================================================================
-// TELA PRINCIPAL — HISTÓRICO
-// =================================================================
 export default function Historico() {
   const { movimentacoes, obras, materials, isLoading } = useData();
   const { theme } = useThemeContext();
@@ -181,7 +165,6 @@ export default function Historico() {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      {/* Cabeçalho */}
       <View
         style={[
           styles.header,
@@ -195,7 +178,6 @@ export default function Historico() {
           Histórico de Movimentações
         </Text>
 
-        {/* Busca */}
         <View
           style={[
             styles.searchBox,
@@ -215,9 +197,7 @@ export default function Historico() {
           />
         </View>
 
-        {/* Filtros */}
         <View style={styles.filters}>
-          {/* Filtro Obra */}
           <View
             style={[
               styles.pickerContainer,
@@ -239,7 +219,6 @@ export default function Historico() {
             </Picker>
           </View>
 
-          {/* Filtro Material */}
           <View
             style={[
               styles.pickerContainer,
@@ -263,7 +242,6 @@ export default function Historico() {
         </View>
       </View>
 
-      {/* Lista */}
       {filteredMovimentacoes.length === 0 ? (
         <View style={styles.empty}>
           <Text style={[styles.emptyText, { color: theme.colors.textMuted }]}>
@@ -284,9 +262,6 @@ export default function Historico() {
   );
 }
 
-// =================================================================
-// ESTILOS
-// =================================================================
 const styles = StyleSheet.create({
   container: { flex: 1 },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
@@ -331,7 +306,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
-  // Card
   card: {
     borderWidth: 1,
     borderRadius: 16,

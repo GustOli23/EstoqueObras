@@ -28,9 +28,6 @@ import {
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-/* ---------------------------------------------------------
-   BOTÃO DE CONFIG NO HEADER
---------------------------------------------------------- */
 function HeaderConfigButton() {
   const navigation = useNavigation();
   const { theme } = useThemeContext();
@@ -45,9 +42,6 @@ function HeaderConfigButton() {
   );
 }
 
-/* ---------------------------------------------------------
-   FUNÇÃO AUXILIAR: RETORNA OPÇÕES DO HEADER SEM CHAMAR HOOKS
---------------------------------------------------------- */
 function createHeaderOptions(theme, title, showConfigButton = true) {
   return {
     headerShown: true,
@@ -59,9 +53,6 @@ function createHeaderOptions(theme, title, showConfigButton = true) {
   };
 }
 
-/* ---------------------------------------------------------
-   STACK: DASHBOARD
---------------------------------------------------------- */
 function DashboardStack() {
   const { theme } = useThemeContext();
   return (
@@ -75,9 +66,6 @@ function DashboardStack() {
   );
 }
 
-/* ---------------------------------------------------------
-   STACK: MATERIAIS
---------------------------------------------------------- */
 function MateriaisStack() {
   const { theme } = useThemeContext();
 
@@ -98,9 +86,6 @@ function MateriaisStack() {
   );
 }
 
-/* ---------------------------------------------------------
-   STACK: OBRAS
---------------------------------------------------------- */
 function ObrasStack() {
   const { theme } = useThemeContext();
 
@@ -121,9 +106,6 @@ function ObrasStack() {
   );
 }
 
-/* ---------------------------------------------------------
-   STACK: HISTÓRICO
---------------------------------------------------------- */
 function HistoricoStack() {
   const { theme } = useThemeContext();
 
@@ -138,9 +120,6 @@ function HistoricoStack() {
   );
 }
 
-/* ---------------------------------------------------------
-   TABS
---------------------------------------------------------- */
 function Tabs() {
   const { theme } = useThemeContext();
 
@@ -236,9 +215,6 @@ function Tabs() {
   );
 }
 
-/* ---------------------------------------------------------
-   STACK GLOBAL
---------------------------------------------------------- */
 export default function AppNavigator() {
   const { theme } = useThemeContext();
 

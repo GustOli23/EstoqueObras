@@ -26,12 +26,10 @@ export default function Materiais() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStock, setFilterStock] = useState("all");
 
-  // 🔹 Criar novo material
   const handleNewMaterial = () => {
     navigation.navigate("MaterialForm");
   };
 
-  // 🔹 Editar material existente
   const handleEdit = (material) => {
     const materialData = {
       ...material,
@@ -42,7 +40,6 @@ export default function Materiais() {
     navigation.navigate("MaterialForm", { material: materialData });
   };
 
-  // 🔹 Filtro e busca
   const filteredMaterials = useMemo(() => {
     let filtered = materials.filter((m) => {
       if (filterStock === "low") return m.quantidade <= m.estoque_minimo;
@@ -78,7 +75,6 @@ export default function Materiais() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      {/* Cabeçalho */}
       <View
         style={[
           styles.header,
@@ -92,7 +88,6 @@ export default function Materiais() {
           Inventário de Materiais
         </Text>
 
-        {/* Linha de busca */}
         <View style={styles.row}>
           <View
             style={[
@@ -118,7 +113,6 @@ export default function Materiais() {
           </View>
         </View>
 
-        {/* Linha de filtro e botão Novo */}
         <View style={styles.row}>
           <View
             style={[
@@ -133,7 +127,7 @@ export default function Materiais() {
               selectedValue={filterStock}
               onValueChange={(v) => setFilterStock(v)}
               dropdownIconColor={theme.colors.text}
-              style={{ color: theme.colors.text }} // ← ESSENCIAL
+              style={{ color: theme.colors.text }}
             >
               <Picker.Item label="Todos os Materiais" value="all" />
               <Picker.Item label="Estoque Baixo" value="low" />
@@ -152,7 +146,6 @@ export default function Materiais() {
         </View>
       </View>
 
-      {/* Lista de Materiais */}
       {filteredMaterials.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={[styles.emptyText, { color: theme.colors.textMuted }]}>
@@ -221,15 +214,15 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderRadius: 12,
-    height: 52, // ← altura maior
-    paddingHorizontal: 8, // ← mais espaço interno
-    justifyContent: "center", // ← mantém alinhamento correto
+    height: 52,
+    paddingHorizontal: 8,
+    justifyContent: "center",
   },
 
   picker: {
-    height: 52, // ← mesma altura
+    height: 52,
     width: "100%",
-    color: "red", // o color é sobrescrito abaixo
+    color: "red",
   },
   addButton: {
     width: 48,

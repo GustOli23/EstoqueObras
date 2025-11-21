@@ -1,10 +1,6 @@
-// src/context/DataService.js
 import React, { useState, createContext, useContext, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// ===============================
-// 🔹 MOCKS INICIAIS
-// ===============================
 const materials_mock = [
   {
     id: "mat1",
@@ -88,33 +84,21 @@ const movimentacoes_mock = [
   },
 ];
 
-// ===============================
-// 🔹 CHAVES DO STORAGE
-// ===============================
 const STORAGE_KEYS = {
   materials: "@data_materials",
   obras: "@data_obras",
   movimentacoes: "@data_movimentacoes",
 };
 
-// ===============================
-// 🔹 CONTEXTO GLOBAL
-// ===============================
 const DataContext = createContext();
 export const useData = () => useContext(DataContext);
 
-// ===============================
-// 🔹 PROVIDER PRINCIPAL
-// ===============================
 export function DataProvider({ children }) {
   const [materials, setMaterials] = useState([]);
   const [obras, setObras] = useState([]);
   const [movimentacoes, setMovimentacoes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // -------------------------------
-  // 🧠 Carrega dados do AsyncStorage
-  // -------------------------------
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -143,9 +127,6 @@ export function DataProvider({ children }) {
     loadData();
   }, []);
 
-  // -------------------------------
-  // 💾 Salva dados no AsyncStorage
-  // -------------------------------
   const saveData = async (key, data) => {
     try {
       await AsyncStorage.setItem(key, JSON.stringify(data));
@@ -154,9 +135,6 @@ export function DataProvider({ children }) {
     }
   };
 
-  // ===============================
-  // 🔸 MATERIAIS
-  // ===============================
   const createMaterial = (data) => {
     const newMaterial = {
       ...data,
@@ -181,9 +159,6 @@ export function DataProvider({ children }) {
     saveData(STORAGE_KEYS.materials, updated);
   };
 
-  // ===============================
-  // 🔸 OBRAS
-  // ===============================
   const createObra = (data) => {
     const newObra = {
       ...data,
@@ -209,9 +184,6 @@ export function DataProvider({ children }) {
     saveData(STORAGE_KEYS.obras, updated);
   };
 
-  // ===============================
-  // 🔸 MOVIMENTAÇÕES
-  // ===============================
   const createMovimentacao = (data) => {
     const newMov = {
       ...data,
@@ -219,7 +191,6 @@ export function DataProvider({ children }) {
       created_date: new Date().toISOString(),
     };
 
-    // Atualiza estoque
     const materialToUpdate = materials.find((m) => m.id === data.material_id);
     if (materialToUpdate) {
       const quantidadeMov = parseFloat(data.quantidade);
@@ -237,22 +208,16 @@ export function DataProvider({ children }) {
     return newMov;
   };
 
-  // ===============================
-  // 🔸 RESET DATABASE
-  // ===============================
   const resetDatabase = async () => {
     try {
       setIsLoading(true);
 
-      // Limpa o AsyncStorage
       await AsyncStorage.multiRemove(Object.values(STORAGE_KEYS));
 
-      // Restaura os mocks
       setMaterials(materials_mock);
       setObras(obras_mock);
       setMovimentacoes(movimentacoes_mock);
 
-      // Salva novamente no storage
       await AsyncStorage.setItem(
         STORAGE_KEYS.materials,
         JSON.stringify(materials_mock)
@@ -274,15 +239,12 @@ export function DataProvider({ children }) {
     }
   };
 
-  // ===============================
-  // 🔸 CONTEXTO
-  // ===============================
   const value = {
     isLoading,
     materials,
     obras,
     movimentacoes,
-    // Funções CRUD
+
     createMaterial,
     updateMaterial,
     deleteMaterial,
@@ -290,7 +252,7 @@ export function DataProvider({ children }) {
     updateObra,
     deleteObra,
     createMovimentacao,
-    // Nova função utilitária
+
     resetDatabase,
   };
 

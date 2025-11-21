@@ -188,7 +188,6 @@ export default function MovimentacaoForm() {
             </TouchableOpacity>
           </View>
 
-          {/* Material */}
           <Text style={[styles.label, { color: theme.colors.text }]}>
             Material
           </Text>
@@ -238,7 +237,6 @@ export default function MovimentacaoForm() {
             </View>
           )}
 
-          {/* Obra (apenas saída) */}
           {movType === "saida" && (
             <>
               <Text style={[styles.label, { color: theme.colors.text }]}>
@@ -271,7 +269,6 @@ export default function MovimentacaoForm() {
             </>
           )}
 
-          {/* Quantidade */}
           <Text style={[styles.label, { color: theme.colors.text }]}>
             Quantidade ({selectedMaterial?.unidade_medida || "un"})
           </Text>
@@ -299,7 +296,6 @@ export default function MovimentacaoForm() {
             </Text>
           </Text>
 
-          {/* Observação */}
           <Text style={[styles.label, { color: theme.colors.text }]}>
             Observação (Opcional)
           </Text>
@@ -320,7 +316,6 @@ export default function MovimentacaoForm() {
             placeholderTextColor={theme.colors.textMuted}
           />
 
-          {/* Botões */}
           <View style={styles.buttons}>
             <TouchableOpacity
               onPress={() => navigation.goBack()}

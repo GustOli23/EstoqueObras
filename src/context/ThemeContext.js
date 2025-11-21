@@ -22,17 +22,17 @@ export const lightTheme = {
 export const darkTheme = {
   name: "dark",
   colors: {
-    background: "#0D1117", // Azul-marinho quase preto (GitHub Dark)
-    surface: "#161B22", // Cartões no tom certo
+    background: "#0D1117",
+    surface: "#161B22",
     surfaceAlt: "#1F242C",
     border: "#30363D",
 
-    text: "#E6EDF3", // Branco suave (perfeito no escuro)
-    textMuted: "#9BA3B4", // Azul-Cinza legível (em vez de cinza claro)
-    textLight: "#7D8694", // Azul acinzentado → melhor visibilidade
+    text: "#E6EDF3",
+    textMuted: "#9BA3B4",
+    textLight: "#7D8694",
 
-    primary: "#1f6feb", // Azul escuro bonito (GitHub accent)
-    secondary: "#58A6FF", // Azul claro de destaque
+    primary: "#1f6feb",
+    secondary: "#58A6FF",
   },
 
   gradient: ["#1f6feb", "#58A6FF"],

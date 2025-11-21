@@ -34,13 +34,11 @@ export const darkTheme = {
   },
 };
 
-//  Hook para usar o tema atual do sistema
 export const useTheme = () => {
-  const colorScheme = useColorScheme(); // retorna 'light' ou 'dark'
+  const colorScheme = useColorScheme();
   return colorScheme === "dark" ? darkTheme : lightTheme;
 };
 
-// exporta ambos (caso queira usar manualmente)
 export const themes = { lightTheme, darkTheme };
 
-export default lightTheme; // fallback padrão
+export default lightTheme;

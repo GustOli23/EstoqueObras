@@ -11,7 +11,6 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useThemeContext } from "../context/ThemeContext";
 
-// Formatação
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
   try {
@@ -22,7 +21,6 @@ const formatDate = (dateString) => {
   }
 };
 
-// Badge estilizado (igual ao MaterialCard)
 const StatusBadge = ({ status }) => {
   const isArchived = status === "arquivada";
 
@@ -50,7 +48,6 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-// CARD DA OBRA
 export default function WorkCard({ obra, onEdit, onArchive, onUnarchive }) {
   const { theme } = useThemeContext();
   const isArchived = obra.status === "arquivada";
@@ -65,7 +62,6 @@ export default function WorkCard({ obra, onEdit, onArchive, onUnarchive }) {
         },
       ]}
     >
-      {/* Cabeçalho */}
       <View style={[styles.header, { borderBottomColor: theme.colors.border }]}>
         <View style={styles.headerLeft}>
           <View
@@ -104,7 +100,6 @@ export default function WorkCard({ obra, onEdit, onArchive, onUnarchive }) {
         )}
       </View>
 
-      {/* Corpo */}
       <View style={styles.body}>
         <View style={styles.row}>
           <MapPin color={theme.colors.text} size={18} />
@@ -145,16 +140,14 @@ export default function WorkCard({ obra, onEdit, onArchive, onUnarchive }) {
         )}
       </View>
 
-      {/* BOTÃO DE ARQUIVAR / DESARQUIVAR */}
       {isArchived ? (
-        // Botão DESARQUIVAR
         <TouchableOpacity
           onPress={() => onUnarchive && onUnarchive(obra)}
           style={[
             styles.archiveButton,
             {
-              backgroundColor: "rgba(75, 142, 255, 0.22)", // fundo azul suave
-              borderColor: theme.colors.primary, // borda azul
+              backgroundColor: "rgba(75, 142, 255, 0.22)",
+              borderColor: theme.colors.primary,
             },
           ]}
         >
@@ -168,13 +161,12 @@ export default function WorkCard({ obra, onEdit, onArchive, onUnarchive }) {
           </Text>
         </TouchableOpacity>
       ) : (
-        // Botão ARQUIVAR
         <TouchableOpacity
           onPress={() => onArchive && onArchive(obra)}
           style={[
             styles.archiveButton,
             {
-              backgroundColor: "rgba(255, 99, 99, 0.22)", // vermelho suave
+              backgroundColor: "rgba(255, 99, 99, 0.22)",
               borderColor: "#ff6b6b55",
             },
           ]}

@@ -82,7 +82,6 @@ export default function Dashboard() {
         Resumo Geral
       </Text>
 
-      {/* === GRID SUPERIOR === */}
       <View style={styles.grid}>
         <StatsCard
           title="Materiais"
@@ -109,7 +108,6 @@ export default function Dashboard() {
         />
       </View>
 
-      {/* === DOIS CARDS INFERIORES ALINHADOS === */}
       <View style={styles.row}>
         {/* MOVIMENTAÇÕES */}
         <TouchableOpacity
@@ -131,7 +129,6 @@ export default function Dashboard() {
           </Text>
         </TouchableOpacity>
 
-        {/* ALERTAS — FUNDO VINHO */}
         <TouchableOpacity
           style={[styles.block, { backgroundColor: "#4C1D3C" }]}
           onPress={() => navigation.navigate("Materiais")}
@@ -151,7 +148,6 @@ export default function Dashboard() {
         </TouchableOpacity>
       </View>
 
-      {/* === VALOR POR OBRA === */}
       <Text
         style={[
           styles.sectionTitle,
@@ -209,7 +205,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 16, // ← alinhamento igual ao grid
+    gap: 16,
     marginTop: 20,
   },
 

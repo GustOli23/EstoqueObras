@@ -25,7 +25,6 @@ export default function Configuracoes() {
   const { resetDatabase } = useData();
   const { theme, themeName, toggleTheme } = useThemeContext();
 
-  // 🔸 Função de logout (placeholder)
   const handleLogout = () => {
     Alert.alert(
       "Sair do Sistema",
@@ -46,7 +45,6 @@ export default function Configuracoes() {
     );
   };
 
-  // 🔸 Função para restaurar o banco de dados
   const handleReset = () => {
     Alert.alert(
       "Restaurar Banco de Dados",
@@ -74,7 +72,6 @@ export default function Configuracoes() {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <View style={styles.inner}>
-        {/* Header */}
         <View style={styles.header}>
           <Text style={[styles.title, { color: theme.colors.text }]}>
             Configurações
@@ -84,7 +81,6 @@ export default function Configuracoes() {
           </Text>
         </View>
 
-        {/* Empresa */}
         <View
           style={[
             styles.card,
@@ -126,7 +122,6 @@ export default function Configuracoes() {
           </Text>
         </View>
 
-        {/* Aparência */}
         <View
           style={[
             styles.card,
@@ -193,7 +188,6 @@ export default function Configuracoes() {
           </TouchableOpacity>
         </View>
 
-        {/* Banco de Dados */}
         <View
           style={[
             styles.card,
@@ -233,7 +227,6 @@ export default function Configuracoes() {
           </TouchableOpacity>
         </View>
 
-        {/* Conta */}
         <View
           style={[
             styles.card,
@@ -273,7 +266,6 @@ export default function Configuracoes() {
           </TouchableOpacity>
         </View>
 
-        {/* Info */}
         <View
           style={[
             styles.footerCard,

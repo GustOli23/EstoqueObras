@@ -1,4 +1,3 @@
-// src/components/StatsCard.js
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useThemeContext } from "../context/ThemeContext";
@@ -7,8 +6,8 @@ export default function StatsCard({
   title,
   value,
   description,
-  color = null, // opcional: permite sobrescrever a cor do valor
-  background = null, // opcional: permite sobrescrever o fundo (como o vinho)
+  color = null,
+  background = null,
 }) {
   const { theme } = useThemeContext();
 

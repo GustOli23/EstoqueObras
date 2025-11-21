@@ -3,15 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AlertTriangle, DollarSign, Edit, Package } from "lucide-react-native";
 import { useThemeContext } from "../context/ThemeContext";
 
-// 🔹 Badge estilizado (corrigido: 100% visível no modo escuro)
 const Badge = ({ children, isLowStock }) => (
   <View
     style={[
       styles.badge,
       {
         backgroundColor: isLowStock
-          ? "rgba(255, 99, 99, 0.22)" // vermelho suave
-          : "rgba(75, 142, 255, 0.22)", // azul suave
+          ? "rgba(255, 99, 99, 0.22)"
+          : "rgba(75, 142, 255, 0.22)",
       },
     ]}
   >
@@ -42,7 +41,6 @@ export default function MaterialCard({ material, onEdit }) {
         },
       ]}
     >
-      {/* Cabeçalho */}
       <View style={[styles.header, { borderBottomColor: theme.colors.border }]}>
         <View style={styles.headerLeft}>
           <View
@@ -70,7 +68,6 @@ export default function MaterialCard({ material, onEdit }) {
           </View>
         </View>
 
-        {/* Quantidade e botão editar */}
         <View style={styles.headerRight}>
           <View style={styles.quantityContainer}>
             <Text style={[styles.quantity, { color: theme.colors.text }]}>
@@ -94,7 +91,6 @@ export default function MaterialCard({ material, onEdit }) {
         </View>
       </View>
 
-      {/* Informações adicionais */}
       <View style={styles.detailsRow}>
         <View style={styles.detailItem}>
           <DollarSign color={theme.colors.text} size={18} />
@@ -121,7 +117,6 @@ export default function MaterialCard({ material, onEdit }) {
         </View>
       </View>
 
-      {/* Local de Compra */}
       {material.local_compra && (
         <View
           style={[
